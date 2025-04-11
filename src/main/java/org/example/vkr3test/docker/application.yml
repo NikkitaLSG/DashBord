@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: VKR3Test
+  datasource:
+    url: jdbc:postgresql://localhost:5433/VKR
+    username: postgres
+    password: Popcka123
+    hikari:
+      allow-pool-suspension: true
+      register-mbeans: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+      generate_statistics: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  metrics:
+    enable:
+      hibernate: true
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    distribution:
+      percentiles:
+        http.server.requests: 0.5,0.95,0.99
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level:
+    org.hibernate.stat: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.springframework.web: INFO
+    org.example: DEBUG
